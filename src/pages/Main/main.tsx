@@ -1,4 +1,5 @@
 import { Offer } from '../../types/offer';
+import CitiesMap from '../../components/CitiesMap/CitiesMap';
 import PlaceList from '../../components/PlaceList/PlaceList';
 
 type MainProps = {
@@ -6,6 +7,12 @@ type MainProps = {
 };
 
 function Main({ offers }: MainProps): JSX.Element {
+  // Отбираем предложения только для Амстердама
+  const amsterdamOffers = offers.filter((offer) => offer.city.name === 'Amsterdam');
+
+  // Получаем город Амстердам из первого предложения
+  const amsterdamCity = amsterdamOffers[0]?.city;
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -46,13 +53,20 @@ function Main({ offers }: MainProps): JSX.Element {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              {['Paris','Cologne','Brussels','Amsterdam','Hamburg','Dusseldorf'].map((city) => (
-                <li key={city} className="locations__item">
-                  <a className={`locations__item-link tabs__item ${city === 'Amsterdam' ? 'tabs__item--active' : ''}`} href="#">
-                    <span>{city}</span>
-                  </a>
-                </li>
-              ))}
+              {['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'].map(
+                (city) => (
+                  <li key={city} className="locations__item">
+                    <a
+                      className={`locations__item-link tabs__item ${
+                        city === 'Amsterdam' ? 'tabs__item--active' : ''
+                      }`}
+                      href="#"
+                    >
+                      <span>{city}</span>
+                    </a>
+                  </li>
+                )
+              )}
             </ul>
           </section>
         </div>
@@ -60,7 +74,7 @@ function Main({ offers }: MainProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+              <b className="places__found">{amsterdamOffers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -70,16 +84,25 @@ function Main({ offers }: MainProps): JSX.Element {
                   </svg>
                 </span>
                 <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
+                  <li className="places__option places__option--active" tabIndex={0}>
+                    Popular
+                  </li>
+                  <li className="places__option" tabIndex={0}>
+                    Price: low to high
+                  </li>
+                  <li className="places__option" tabIndex={0}>
+                    Price: high to low
+                  </li>
+                  <li className="places__option" tabIndex={0}>
+                    Top rated first
+                  </li>
                 </ul>
               </form>
-              <PlaceList offers={offers} />
+              <PlaceList offers={amsterdamOffers} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              {/* Подключаем компонент карты */}
+              {amsterdamCity && <CitiesMap city={amsterdamCity} points={amsterdamOffers} />}
             </div>
           </div>
         </div>
@@ -89,5 +112,3 @@ function Main({ offers }: MainProps): JSX.Element {
 }
 
 export default Main;
-
-
