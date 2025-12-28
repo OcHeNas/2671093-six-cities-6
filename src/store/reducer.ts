@@ -1,20 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit';
-import {
-  setOffersList,
-  changeCity,
-  setSortType,
-  setSelectedPoint,
-} from './action';
-import { offers } from '../mocks/offers';
+import { changeCity, setSortType, setSelectedPoint } from './action';
+import { fetchOffersAction } from './api-actions';
 import { Offer } from '../types/offer';
 
 type StateType = {
   city: string;
   offersList: Offer[];
   selectedSortType: string;
-  selectedPoint: {
-    title: string;
-  } | null;
+  selectedPoint: { title: string } | null;
+  isOffersLoading: boolean;
 };
 
 const initialState: StateType = {
@@ -22,6 +16,7 @@ const initialState: StateType = {
   offersList: [],
   selectedSortType: 'Popular',
   selectedPoint: null,
+  isOffersLoading: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -32,12 +27,22 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setSortType, (state, { payload }) => {
       state.selectedSortType = payload;
     })
-    .addCase(setOffersList, (state) => {
-      state.offersList = offers;
-    })
     .addCase(setSelectedPoint, (state, { payload }) => {
       state.selectedPoint = payload;
+    })
+
+    // async
+    .addCase(fetchOffersAction.pending, (state) => {
+      state.isOffersLoading = true;
+    })
+    .addCase(fetchOffersAction.fulfilled, (state, { payload }) => {
+      state.offersList = payload;
+      state.isOffersLoading = false;
+    })
+    .addCase(fetchOffersAction.rejected, (state) => {
+      state.isOffersLoading = false;
     });
 });
 
 export { reducer };
+

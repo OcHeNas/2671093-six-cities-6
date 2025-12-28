@@ -7,23 +7,29 @@ import NotFound from '../../pages/NotFound/not-found';
 import PrivateRoute from '../private-route/private-route';
 import { Review } from '../../types/review';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setOffersList } from '../../store/action';
 import { useEffect } from 'react';
+import { fetchOffersAction } from '../../store/api-actions';
+import Spinner from '../spinner/spinner';
 
 type AppProps = {
   reviews: Review[];
 };
 
-function App({ reviews }: AppProps): JSX.Element | null {
+function App({ reviews }: AppProps): JSX.Element {
   const dispatch = useAppDispatch();
   const offers = useAppSelector((state) => state.offersList);
+  const isLoading = useAppSelector((state) => state.isOffersLoading);
 
   useEffect(() => {
-    dispatch(setOffersList());
+    dispatch(fetchOffersAction());
   }, [dispatch]);
 
-  if (offers.length === 0) {
-    return null;
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (!isLoading && offers.length === 0) {
+    return <Spinner />;
   }
 
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
