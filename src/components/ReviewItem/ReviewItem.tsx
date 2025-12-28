@@ -1,5 +1,10 @@
 import { Review } from '../../types/review';
-import { getRating } from '../../utils';
+import { formatRating } from '../../utils';
+const USER_AVATAR_SIZES = {
+  height: '54',
+  width: '54',
+};
+
 
 type ReviewItemProps = {
   review: Review;
@@ -15,8 +20,8 @@ function ReviewItem({ review }: ReviewItemProps): JSX.Element {
           <img
             className="reviews__avatar user__avatar"
             src={user.avatarUrl}
-            width="54"
-            height="54"
+            width={USER_AVATAR_SIZES.height}
+            height={USER_AVATAR_SIZES.height}
             alt="Reviews avatar"
           />
         </div>
@@ -29,15 +34,18 @@ function ReviewItem({ review }: ReviewItemProps): JSX.Element {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{ width: getRating(rating) }} />
+            <span style={{ width: formatRating(rating) }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
 
         <p className="reviews__text">{comment}</p>
 
-        <time className="reviews__time" dateTime={date}>
-          {new Date(date).toLocaleDateString()}
+        <time
+          className="reviews__time"
+          dateTime={new Date(date).toDateString()}
+        >
+          {new Date(date).toDateString()}
         </time>
       </div>
     </li>

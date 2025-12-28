@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
-import { getRating } from '../../utils';
+import { formatRating } from '../../utils';
+import { useAppDispatch } from '../../hooks';
+import { setSelectedPoint } from '../../store/action';
 
 type PlaceCardProps = {
   cardInfo: Offer;
@@ -18,9 +20,14 @@ function PlaceCard({ cardInfo, typeClassName }: PlaceCardProps): JSX.Element {
     rating,
     previewImage,
   } = cardInfo;
+  const dispatch = useAppDispatch();
 
   return (
-    <article className={`${typeClassName} place-card`}>
+    <article
+      className={`${typeClassName} place-card`}
+      onMouseOver={() => dispatch(setSelectedPoint({ title }))}
+      onMouseLeave={() => dispatch(setSelectedPoint(null))}
+    >
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
@@ -61,13 +68,15 @@ function PlaceCard({ cardInfo, typeClassName }: PlaceCardProps): JSX.Element {
 
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: getRating(rating) }} />
+            <span style={{ width: formatRating(rating) }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
 
         <h2 className="place-card__name">
-          <Link to={`/offer/${id}`}>{title}</Link>
+          <Link to={`/offer/${id}`} state={cardInfo}>
+            {title}
+          </Link>
         </h2>
 
         <p className="place-card__type">{type}</p>

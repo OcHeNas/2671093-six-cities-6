@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import CitiesMap from '../../components/CitiesMap/CitiesMap';
 import PlaceList from '../../components/PlaceList/PlaceList';
 import CitiesList from '../../components/CitiesList/CitiesList';
+import SortingBlock from '../../components/SortingBlock/SortingBlock';
 import { Cities } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { Offer } from '../../types/offer';
@@ -9,6 +10,7 @@ import { Offer } from '../../types/offer';
 function Main(): JSX.Element {
   const offers = useAppSelector((state) => state.offersList);
   const city = useAppSelector((state) => state.city);
+  const selectedPoint = useAppSelector((state) => state.selectedPoint);
 
   const [currentCityOffers, setCurrentCityOffers] = useState<Offer[]>([]);
 
@@ -39,14 +41,9 @@ function Main(): JSX.Element {
                 {`${currentCityOffers.length} places to stay in ${city}`}
               </b>
 
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                </span>
-              </form>
+              <SortingBlock />
 
-              <PlaceList cities={currentCityOffers} />
+              <PlaceList offers={currentCityOffers} />
             </section>
 
             <div className="cities__right-section">
@@ -54,6 +51,7 @@ function Main(): JSX.Element {
                 <CitiesMap
                   city={currentCityOffers[0].city}
                   points={currentCityOffers}
+                  activeOfferId={selectedPoint?.title ?? undefined}
                 />
               )}
             </div>
@@ -65,4 +63,5 @@ function Main(): JSX.Element {
 }
 
 export default Main;
+
 
