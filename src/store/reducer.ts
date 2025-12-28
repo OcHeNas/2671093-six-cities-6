@@ -1,8 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { changeCity, setSortType, setSelectedPoint } from './action';
-import { fetchOffersAction, checkAuthAction, loginAction } from './api-actions';
+import { fetchOffersAction, checkAuthAction, loginAction, fetchOfferAction, fetchNearbyOffersAction, fetchCommentsAction, postCommentAction } from './api-actions';
 import { Offer } from '../types/offer';
 import { AuthorizationStatus } from '../const';
+import { Comment } from '../types/comment';
 
 type StateType = {
   city: string;
@@ -12,6 +13,10 @@ type StateType = {
   isOffersLoading: boolean;
   authorizationStatus: AuthorizationStatus;
   userEmail: string | null;
+  currentOffer: Offer | null;
+  nearbyOffers: Offer[];
+  comments: Comment[];
+  isOfferLoading: boolean;
 };
 
 const initialState: StateType = {
@@ -22,6 +27,10 @@ const initialState: StateType = {
   isOffersLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   userEmail: null,
+  currentOffer: null,
+  nearbyOffers: [],
+  comments: [],
+  isOfferLoading: false,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -36,7 +45,7 @@ export const reducer = createReducer(initialState, (builder) => {
       state.selectedPoint = payload;
     })
 
-    // offers
+    // fetch all offers
     .addCase(fetchOffersAction.pending, (state) => {
       state.isOffersLoading = true;
     })
@@ -45,7 +54,34 @@ export const reducer = createReducer(initialState, (builder) => {
       state.isOffersLoading = false;
     })
     .addCase(fetchOffersAction.rejected, (state) => {
+      state.offersList = [];
       state.isOffersLoading = false;
+    })
+
+    // offer
+    .addCase(fetchOfferAction.pending, (state) => {
+      state.isOfferLoading = true;
+    })
+    .addCase(fetchOfferAction.fulfilled, (state, { payload }) => {
+      state.currentOffer = payload;
+      state.isOfferLoading = false;
+    })
+    .addCase(fetchOfferAction.rejected, (state) => {
+      state.currentOffer = null;
+      state.isOfferLoading = false;
+    })
+
+    // nearby
+    .addCase(fetchNearbyOffersAction.fulfilled, (state, { payload }) => {
+      state.nearbyOffers = payload;
+    })
+
+    // comments
+    .addCase(fetchCommentsAction.fulfilled, (state, { payload }) => {
+      state.comments = payload;
+    })
+    .addCase(postCommentAction.fulfilled, (state, { payload }) => {
+      state.comments = payload;
     })
 
     // auth
