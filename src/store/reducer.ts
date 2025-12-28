@@ -1,11 +1,20 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { changeCity, setSortType, setSelectedPoint } from './action';
-import { fetchOffersAction, checkAuthAction, loginAction, fetchOfferAction, fetchNearbyOffersAction, fetchCommentsAction, postCommentAction } from './api-actions';
+import {
+  fetchOffersAction,
+  checkAuthAction,
+  loginAction,
+  fetchOfferAction,
+  fetchNearbyOffersAction,
+  fetchCommentsAction,
+  postCommentAction
+} from './api-actions';
 import { Offer } from '../types/offer';
 import { AuthorizationStatus } from '../const';
 import { Comment } from '../types/comment';
 
-type StateType = {
+// Экспортируем тип состояния
+export type StateType = {
   city: string;
   offersList: Offer[];
   selectedSortType: string;
