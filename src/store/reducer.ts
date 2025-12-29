@@ -45,6 +45,8 @@ const initialState: StateType = {
   isOfferLoading: false,
 };
 
+export { initialState };
+
 export const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(changeCity, (state, { payload }) => {
