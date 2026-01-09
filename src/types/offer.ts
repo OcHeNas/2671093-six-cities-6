@@ -23,3 +23,18 @@ export type Offer = {
   rating: number;
   previewImage: string;
 };
+
+export type OfferDetails = Offer & {
+  bedrooms: number;
+  maxAdults: number;
+  description: string;
+  goods: string[];
+  images: string[];
+  host: {
+    id: number;
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  };
+};
+
