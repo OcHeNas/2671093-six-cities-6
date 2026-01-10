@@ -3,7 +3,7 @@ import { renderWithProviders } from '../../utils/test-utils';
 import PlaceList from './place-list';
 import { mockOffers } from '../../mocks/offers';
 
-vi.mock('../PlaceCard/PlaceCard', () => ({
+vi.mock('../PlaceCard/place-card', () => ({
   default: () => <div data-testid="place-card" />,
 }));
 
