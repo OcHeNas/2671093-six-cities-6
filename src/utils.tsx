@@ -1,6 +1,9 @@
 import { Offer } from './types/offer';
 
-export const formatRating = (rate: number) => `${(rate / 5) * 100}%`;
+export const formatRating = (rate: number): string => {
+  const rounded = Math.round(rate);
+  return `${(rounded / 5) * 100}%`;
+};
 
 export const getSortedOffers = (
   offers: Offer[],

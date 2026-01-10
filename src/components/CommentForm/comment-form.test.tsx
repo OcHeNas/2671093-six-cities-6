@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../../utils/test-utils';
-import CommentForm from './CommentForm';
+import CommentForm from './comment-form';
 
 it('renders comment form', () => {
   const { getByPlaceholderText } = renderWithProviders(<CommentForm offerId="1" />);

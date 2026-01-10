@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../../utils/test-utils';
-import CitiesList from './CitiesList';
+import CitiesList from './cities-list';
 import { Cities } from '../../const';
 
 it('renders cities', () => {

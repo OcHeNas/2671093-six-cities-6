@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react';
-import SortingBlock from './SortingBlock';
+import SortingBlock from './sorting-block';
 import { renderWithProviders } from '../../utils/test-utils';
 
 describe('Component: SortingBlock', () => {

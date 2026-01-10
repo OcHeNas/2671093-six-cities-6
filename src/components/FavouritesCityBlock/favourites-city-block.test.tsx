@@ -1,23 +1,25 @@
 import { vi } from 'vitest';
+import { screen } from '@testing-library/react';
 import { renderWithProviders } from '../../utils/test-utils';
-import PlaceList from './PlaceList';
+import FavouritesCityBlock from './favourites-city-block';
 import { mockOffers } from '../../mocks/offers';
 
 vi.mock('../PlaceCard/PlaceCard', () => ({
   default: () => <div data-testid="place-card" />,
 }));
 
-describe('Component: PlaceList', () => {
-  it('renders sorted offers list', () => {
+describe('Component: FavouritesCityBlock', () => {
+  it('renders city name and favourite offers', () => {
     renderWithProviders(
-      <PlaceList offers={mockOffers} />,
-      {
-        preloadedState: {
-          selectedSortType: 'Popular',
-        },
-      }
+      <ul>
+        <FavouritesCityBlock
+          city="Paris"
+          places={mockOffers}
+        />
+      </ul>
     );
 
+    expect(screen.getByText('Paris')).toBeInTheDocument();
     expect(
       document.querySelectorAll('[data-testid="place-card"]')
     ).toHaveLength(mockOffers.length);

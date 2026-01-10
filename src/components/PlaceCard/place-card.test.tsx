@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../../utils/test-utils';
-import PlaceCard from './PlaceCard';
+import PlaceCard from './place-card';
 import { mockOffer } from '../../mocks/offers';
 import { CardType } from '../../const';
 

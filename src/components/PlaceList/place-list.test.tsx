@@ -1,16 +1,21 @@
 import { vi } from 'vitest';
 import { renderWithProviders } from '../../utils/test-utils';
-import NearestCardList from './NearestCardList';
+import PlaceList from './place-list';
 import { mockOffers } from '../../mocks/offers';
 
 vi.mock('../PlaceCard/PlaceCard', () => ({
   default: () => <div data-testid="place-card" />,
 }));
 
-describe('Component: NearestCardList', () => {
-  it('renders nearest offers', () => {
+describe('Component: PlaceList', () => {
+  it('renders sorted offers list', () => {
     renderWithProviders(
-      <NearestCardList offers={mockOffers} />
+      <PlaceList offers={mockOffers} />,
+      {
+        preloadedState: {
+          selectedSortType: 'Popular',
+        },
+      }
     );
 
     expect(
@@ -18,4 +23,5 @@ describe('Component: NearestCardList', () => {
     ).toHaveLength(mockOffers.length);
   });
 });
+
 

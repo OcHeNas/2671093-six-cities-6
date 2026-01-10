@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import CitiesMap from './CitiesMap';
+import CitiesMap from './cities-map';
 import { mockOffer } from '../../mocks/offers';
 
 it('renders map container', () => {

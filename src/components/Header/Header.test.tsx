@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react';
-import Header from './Header';
+import Header from './header';
 import { renderWithProviders } from '../../utils/test-utils';
 import { mockOffer } from '../../mocks/offers';
 import { AuthorizationStatus } from '../../const';

@@ -1,6 +1,6 @@
-import Header from '../../components/Header/Header';
+import Header from '../../components/Header/header';
 import { useAppSelector } from '../../hooks';
-import FavouritesCityBlock from '../../components/FavouritesCityBlock/FavouritesCityBlock';
+import FavouritesCityBlock from '../../components/FavouritesCityBlock/favourites-city-block';
 
 function Favorites(): JSX.Element {
   const favorites = useAppSelector((state) => state.favorites);

@@ -1,4 +1,4 @@
-import PlaceCard from '../PlaceCard/PlaceCard';
+import PlaceCard from '../PlaceCard/place-card';
 import { CardListProps } from '../../types/card-list';
 import { CardType } from '../../const';
 
