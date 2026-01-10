@@ -1,8 +1,8 @@
-import CitiesMap from '../../components/CitiesMap/CitiesMap';
-import PlaceList from '../../components/PlaceList/PlaceList';
-import CitiesList from '../../components/CitiesList/CitiesList';
-import SortingBlock from '../../components/SortingBlock/SortingBlock';
-import MainEmpty from '../../components/MainEmpty/MainEmpty';
+import CitiesMap from '../../components/CitiesMap/cities-map';
+import PlaceList from '../../components/PlaceList/place-list';
+import CitiesList from '../../components/CitiesList/cities-list';
+import SortingBlock from '../../components/SortingBlock/sorting-block';
+import MainEmpty from '../../components/MainEmpty/main-empty';
 import { Cities } from '../../const';
 import { useAppSelector } from '../../hooks';
 import {

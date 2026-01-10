@@ -1,6 +1,6 @@
 import { CardType } from '../../const';
 import { Offer } from '../../types/offer';
-import CityCard from '../PlaceCard/PlaceCard';
+import CityCard from '../PlaceCard/place-card';
 
 type FavouritesCityBlockProps = {
   city: string;

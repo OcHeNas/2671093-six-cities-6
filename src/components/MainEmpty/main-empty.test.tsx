@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import MainEmpty from './MainEmpty';
+import MainEmpty from './main-empty';
 
 describe('Component: MainEmpty', () => {
   it('should render empty state message', () => {

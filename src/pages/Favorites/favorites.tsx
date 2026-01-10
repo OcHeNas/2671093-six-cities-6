@@ -1,48 +1,55 @@
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import PlaceCard from '../../components/PlaceCard/PlaceCard';
-import { fetchFavoritesAction } from '../../store/api-actions';
+import Header from '../../components/Header/header';
+import { useAppSelector } from '../../hooks';
+import FavouritesCityBlock from '../../components/FavouritesCityBlock/favourites-city-block';
 
 function Favorites(): JSX.Element {
-  const dispatch = useAppDispatch();
-  const offers = useAppSelector((state) => state.favorites);
+  const favorites = useAppSelector((state) => state.favorites);
 
-  useEffect(() => {
-    dispatch(fetchFavoritesAction());
-  }, [dispatch]);
+  if (favorites.length === 0) {
+    return (
+      <div className="page page--favorites-empty">
+        <Header />
+        <main className="page__main page__main--favorites page__main--favorites-empty">
+          <div className="page__favorites-container container">
+            <section className="favorites favorites--empty">
+              <h1 className="visually-hidden">Favorites (empty)</h1>
+              <p className="favorites__status">Nothing yet saved</p>
+              <p className="favorites__status-description">
+                Save properties to narrow down search or plan your future trips.
+              </p>
+            </section>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
-  const cities = Array.from(new Set(offers.map((offer) => offer.city.name)));
+  const groupedByCity = favorites.reduce<Record<string, typeof favorites>>(
+    (acc, offer) => {
+      const city = offer.city.name;
+      acc[city] = acc[city] || [];
+      acc[city].push(offer);
+      return acc;
+    },
+    {}
+  );
 
   return (
     <div className="page">
+      <Header />
+
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
 
             <ul className="favorites__list">
-              {cities.map((city) => (
-                <li key={city} className="favorites__locations-items">
-                  <div className="favorites__locations locations locations--current">
-                    <div className="locations__item">
-                      <span className="locations__item-link">
-                        {city}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="favorites__places">
-                    {offers
-                      .filter((offer) => offer.city.name === city)
-                      .map((offer) => (
-                        <PlaceCard
-                          key={offer.id}
-                          cardInfo={offer}
-                          typeClassName="favorites__card"
-                        />
-                      ))}
-                  </div>
-                </li>
+              {Object.entries(groupedByCity).map(([city, offers]) => (
+                <FavouritesCityBlock
+                  key={city}
+                  city={city}
+                  places={offers}
+                />
               ))}
             </ul>
           </section>

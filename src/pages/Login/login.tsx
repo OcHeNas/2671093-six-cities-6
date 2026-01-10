@@ -1,23 +1,43 @@
 import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
+import { changeCity } from '../../store/action';
+import { Cities, AuthorizationStatus } from '../../const';
+
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
 
 function Login(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const authStatus = useAppSelector((state) => state.authorizationStatus);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (evt: FormEvent): void => {
+  if (authStatus === AuthorizationStatus.Auth) {
+    return <Navigate to="/" replace />;
+  }
+
+  const isPasswordValid = passwordRegex.test(password);
+  const isFormValid = email.length > 0 && isPasswordValid;
+
+  const handleSubmit = (evt: FormEvent) => {
     evt.preventDefault();
+    if (!isFormValid) {
+      return;
+    }
 
     dispatch(loginAction({ email, password }))
       .unwrap()
-      .then(() => {
-        navigate('/');
-      });
+      .then(() => navigate('/'));
+  };
+
+  const handleRandomCity = () => {
+    const randomCity =
+      Cities[Math.floor(Math.random() * Cities.length)].name;
+    dispatch(changeCity(randomCity));
+    navigate('/');
   };
 
   return (
@@ -27,18 +47,30 @@ function Login(): JSX.Element {
           <input
             type="email"
             required
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
           />
+
           <input
             type="password"
             required
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
           />
-          <button type="submit">Sign in</button>
+
+          <button type="submit" disabled={!isFormValid}>
+            Sign in
+          </button>
+
+          <button
+            type="button"
+            onClick={handleRandomCity}
+            style={{ marginTop: '10px' }}
+          >
+            Random city
+          </button>
         </form>
       </main>
     </div>
@@ -46,4 +78,5 @@ function Login(): JSX.Element {
 }
 
 export default Login;
+
 

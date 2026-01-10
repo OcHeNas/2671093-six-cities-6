@@ -11,7 +11,7 @@ import {
   fetchFavoritesAction,
   toggleFavoriteAction,
 } from './api-actions';
-import { Offer } from '../types/offer';
+import { Offer, OfferDetails } from '../types/offer';
 import { AuthorizationStatus } from '../const';
 import { Comment } from '../types/comment';
 
@@ -24,7 +24,7 @@ export type StateType = {
   isOffersLoading: boolean;
   authorizationStatus: AuthorizationStatus;
   userEmail: string | null;
-  currentOffer: Offer | null;
+  currentOffer: Offer | OfferDetails | null;
   nearbyOffers: Offer[];
   comments: Comment[];
   isOfferLoading: boolean;
@@ -111,8 +111,11 @@ export const reducer = createReducer(initialState, (builder) => {
       state.offersList = updateOffers(state.offersList);
       state.nearbyOffers = updateOffers(state.nearbyOffers);
 
-      if (state.currentOffer?.id === payload.id) {
-        state.currentOffer = payload;
+      if (state.currentOffer && state.currentOffer.id === payload.id) {
+        state.currentOffer = {
+          ...state.currentOffer,
+          isFavorite: payload.isFavorite,
+        };
       }
     })
 
