@@ -8,3 +8,4 @@ describe('Component: Spinner', () => {
     expect(screen.getByTestId('spinner')).toBeInTheDocument();
   });
 });
+

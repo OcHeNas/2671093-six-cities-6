@@ -108,3 +108,4 @@ describe('Application Routing', () => {
     expect(screen.getByText('404')).toBeInTheDocument();
   });
 });
+
